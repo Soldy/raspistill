@@ -8,7 +8,11 @@ exports.raspistill = function(){
                 options[
                     optionsMap[i].toString().toLowerCase()
                 ] = option[i];
+        return true;
     };
+    this.getCommand=function(){
+        return "raspistill "+getOptions().join(" ");
+    }
     this.start=function(stdOutFun, stdErrFun, closeFun, errFun){
         rpat.run = spawn(
             "raspistill",
@@ -16,7 +20,6 @@ exports.raspistill = function(){
                 options
             )
         );
-          
         if(typeof stdOutFun !== "undefined")
             rpat.run.stdout.on("data", stdOutFun);
         if(typeof stdErrFun !== "undefined")
@@ -26,7 +29,10 @@ exports.raspistill = function(){
         if(typeof errFun !== "undefined")
             rpat.run.on("error", errFun);
     }; 
-    var rpat    = this,
+    this.stop=function(){
+       rpat.run.kill("SIGINT");
+    }
+    let rpat    = this,
         options = {},
         optionsMap = {
             "verticalFlip"    : "vf",
@@ -53,7 +59,7 @@ exports.raspistill = function(){
             "awb"             : "awb",
             "awbg"            : "awbg"
         };
-    var getOptions = function(){
+    let getOptions = function(){
         let out = ["-v","-n"];
         for (let i in options){
             out.push("-"+i.toString());
