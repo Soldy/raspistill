@@ -2,9 +2,9 @@ const spawn = require("child_process").spawn;
 
 exports.raspistill = function(){
     /*
-     * @param {object} option
+     * @param object {option}
      * @public
-     * @var {boolean}
+     * @vreturn boolean
      */
     this.addOptions=function(option){
         for(let i in option)
@@ -21,10 +21,10 @@ exports.raspistill = function(){
         return "raspistill "+getOptions().join(" ");
     };
     /*
-     * @param {function} stdOutFun
-     * @param {function} stdErrFun
-     * @param {function} closeFun
-     * @param {function} errFun
+     * @param function {istdOutFun}
+     * @param function {stdErrFun}
+     * @param function {closeFun}
+     * @param function {errFun}
      * @public
      */
     this.start=function(stdOutFun, stdErrFun, closeFun, errFun){
@@ -49,9 +49,21 @@ exports.raspistill = function(){
     this.stop=function(){
        run.kill("SIGINT");
     };
-    let run     = "",
-        options = {},
-        optionsMap = {
+    /*
+     * @private
+     * @var mixed
+     */
+    let run     = "";
+    /*
+     * @private
+     * @var object
+     */
+    let options = {};
+    /*
+     * @private
+     * @var object list
+     */
+    let optionsMap = {
             "verticalFlip"    : "vf",
             "horizontalFlip"  : "hf",
             "rotation"        : "rot",
@@ -78,6 +90,7 @@ exports.raspistill = function(){
         };
     /*
      * @private
+     * @return string
      */
     let getOptions = function(){
         let out = ["-v","-n"];
