@@ -1,6 +1,6 @@
 {
   "name": "raspistill",
-  "version": "0.99.0-alpha0",
+  "version": "0.99.1",
   "description": "raspistill spawner",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,6 @@
     "url": "https://github.com/Soldy/raspistill/issues"
   },
   "devDependencies": {
-    "nanoTest": "0.0.4-alpha"
+    "nanoTest": "^0.0.4-alpha"
   }
 }
