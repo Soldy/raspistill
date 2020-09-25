@@ -1,7 +1,11 @@
 const spawn = require("child_process").spawn;
 
 exports.raspistill = function(){
-    this.run = "";
+    /*
+     * @param {object} option
+     * @public
+     * @var {boolean}
+     */
     this.addOptions=function(option){
         for(let i in option)
             if(typeof optionsMap[i] !== "undefined")
@@ -10,29 +14,42 @@ exports.raspistill = function(){
                 ] = option[i];
         return true;
     };
+    /*
+     * @public
+     */
     this.getCommand=function(){
         return "raspistill "+getOptions().join(" ");
-    }
+    };
+    /*
+     * @param {function} stdOutFun
+     * @param {function} stdErrFun
+     * @param {function} closeFun
+     * @param {function} errFun
+     * @public
+     */
     this.start=function(stdOutFun, stdErrFun, closeFun, errFun){
-        rpat.run = spawn(
+        run = spawn(
             "raspistill",
             getOptions(
                 options
             )
         );
         if(typeof stdOutFun !== "undefined")
-            rpat.run.stdout.on("data", stdOutFun);
+            run.stdout.on("data", stdOutFun);
         if(typeof stdErrFun !== "undefined")
-            rpat.run.stderr.on("data", stdErrFun);
+            run.stderr.on("data", stdErrFun);
         if(typeof closeFun !== "undefined")
-            rpat.run.on("close", closeFun);
+            run.on("close", closeFun);
         if(typeof errFun !== "undefined")
-            rpat.run.on("error", errFun);
-    }; 
+            run.on("error", errFun);
+    };
+    /*
+     * @public
+     */
     this.stop=function(){
-       rpat.run.kill("SIGINT");
-    }
-    let rpat    = this,
+       run.kill("SIGINT");
+    };
+    let run     = "",
         options = {},
         optionsMap = {
             "verticalFlip"    : "vf",
@@ -59,6 +76,9 @@ exports.raspistill = function(){
             "awb"             : "awb",
             "awbg"            : "awbg"
         };
+    /*
+     * @private
+     */
     let getOptions = function(){
         let out = ["-v","-n"];
         for (let i in options){
